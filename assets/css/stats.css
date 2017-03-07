@@ -1,0 +1,80 @@
+body {
+    background: black;
+    padding: 0;
+    margin: 0;
+}
+
+#main {
+    background: white;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 200px auto;
+    width: 400px;
+}
+
+#main input, #main select {
+    width: 50px;
+    border-radius: 5px;
+    border-color: steelblue;
+    border-width: 2px;
+    border-style: solid;
+}
+
+#main ul {
+    display: table;
+    padding: 0;
+    margin: 0 auto;
+}
+
+#main li {
+    list-style: none;    
+    display: table-cell;
+}
+
+.inputs {
+    text-align: center;
+    display: block;
+}
+
+#calculateDiv {
+    margin: 5px;
+    text-align: center;
+}
+
+#main p {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+#calculateButton {
+    border-radius: 5px;
+    border-style: solid;
+    border-color: darkgray;
+    background: black;
+    color: white;
+}
+
+#calculateButton:hover {
+    background: white;
+    color: black;
+}
+
+#error {
+    color: red;
+    display: block;
+    text-align: center;
+}
+
+#results p {
+    padding: 0 10px;
+}
+
+#results span {
+    display: block;
+    font-size: 3em;
+}
+
+#split {
+    font-size: 1.0em!important;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SHRPG Stat Calculator</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/stats.css">
+</head>
+<body>
+    <div id="main">
+        <ul>
+            <li>
+                <label class="inputs">Graded Stats
+                <input id="gradedStats" type="number" placeholder="0"></label>
+                
+            </li>
+            <li>
+                <label class="inputs">Current Stat Total
+                <input id="statTotal" type="number" placeholder="50"></label>
+            </li>
+            <li>
+                <label class="inputs">Base Level
+                <select id="baseLevel">
+                    <option value="base_0">0</option>
+                    <option value="base_1">1</option>
+                    <option value="base_2">2</option>
+                    <option value="base_3">3</option>
+                    <option value="base_4">4</option>
+                    <option value="base_5">5</option>
+                    <option value="base_6">6</option>
+                    <option value="base_7">7</option>
+                    <option value="base_8">8</option>
+                    <option value="base_9">9</option>
+                </select></label>
+            </li>
+        </ul>
+        
+        <div id="calculateDiv"><button id="calculateButton">Calculate!</button></div>
+        
+        <span id="error"></span>
+        
+        <ul id="results">
+            <li>
+                <p>Earned Stats<span id="earnedStats">0</span><span id="split">(0/0)</span></p>
+            </li>
+            <li>
+                <p>New Stats<span id="newStats">0</span></p>
+            </li>
+        </ul>
+    </div>
+	<script type="text/javascript" src="assets/js/stats.js"></script>
+</body>
+</html>
