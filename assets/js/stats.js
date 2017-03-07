@@ -660,6 +660,8 @@ function setValues() {
             elementErrorMsg[1].textContent = "You're giving them too many stats! Stop!";
         } else if (gradedStats < 0) {
             elementErrorMsg[1].textContent = "Come on, Hitler! You have to give them something!";
+        } else {
+            elementErrorMsg[1].textContent = "";
         }
 }
 
