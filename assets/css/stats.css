@@ -60,7 +60,7 @@ body {
     color: black;
 }
 
-#error {
+.error {
     color: red;
     display: block;
     text-align: center;

@@ -13,7 +13,7 @@ var elementStatTotal = document.getElementById('statTotal');
 var elementBaseLevel = document.getElementById('baseLevel');
 var elementEarnedStats = document.getElementById('earnedStats');
 var elementCalculateButton = document.getElementById('calculateButton');
-var elementErrorMsg = document.getElementById('error');
+var elementErrorMsg = document.querySelectorAll('.error');
 var elementSplit = document.getElementById('split');
 var elementNewStats = document.getElementById('newStats');
 
@@ -641,10 +641,26 @@ Object.size = function(obj) {
     return size;
 };
 
+function Round(value) {
+    if(Math.floor(value) + 0.50 < value) {
+        value = Math.round(value);
+    } else {
+        value = Math.floor(value);
+    }
+    
+    return value;
+}
+
 function setValues() {
         baseLevel = elementBaseLevel.value;
         currentStatTotal = Number(elementStatTotal.value);
         gradedStats = Number(elementGradedStats.value);
+        
+        if(gradedStats > 50) {
+            elementErrorMsg[1].textContent = "You're giving them too many stats! Stop!";
+        } else if (gradedStats < 0) {
+            elementErrorMsg[1].textContent = "Come on, Hitler! You have to give them something!";
+        }
 }
 
 elementCalculateButton.onclick = function() {
@@ -654,27 +670,27 @@ elementCalculateButton.onclick = function() {
     //Get level based on current stats
     var rangeLevel = 0;
     var baseArray = baseLevels[baseLevel];
-    var baseRangeLimit = baseArray[Object.size(baseArray) - 1].threshold + 50;
+    var baseRangeLimit = baseArray[Object.size(baseArray) - 1].threshold + 49;
     var percent;
     var isBaseValid, isBottomRange;
     
     if(currentStatTotal > baseRangeLimit) {
         isBaseValid = false;
-        elementErrorMsg.textContent = "Current Stat Total outside of Base Range!";
+        elementErrorMsg[0].textContent = "Current Stat Total outside of Base Range!";
     } else {
-        elementErrorMsg.textContent = "";
+        elementErrorMsg[0].textContent = "";
         isBaseValid = true;
     }
     
     // If the current stat total is outside of the range, set the rangeLevel
     // to the size of the array.
     if(isBaseValid) {
-        if(currentStatTotal >= (baseArray[Object.size(baseArray) - 1].threshold) - 1) {
+        if(currentStatTotal >= (baseArray[Object.size(baseArray) - 1].threshold)) {
             rangeLevel = Object.size(baseArray) - 1;
         } else {
             // Iterate through the baseArray to find what rangeLevel we're at
             for(var i = 0; i < Object.size(baseArray); i++) {
-                if(currentStatTotal >= baseArray[i].threshold &&
+                if(currentStatTotal > baseArray[i].threshold &&
                    currentStatTotal < baseArray[i+1].threshold) {
                     rangeLevel = i;
                 }
@@ -685,33 +701,29 @@ elementCalculateButton.onclick = function() {
     while(isBaseValid && gradedStats > 0) {
         percent = baseArray[rangeLevel].percent;
         
-        if(currentStatTotal >= baseArray[Object.size(baseArray) - 1].threshold) {
+        if(currentStatTotal + earnedStats >= baseArray[Object.size(baseArray) - 1].threshold) {
             isBottomRange = true;
         } else {
             isBottomRange = false;
         }
         
-        var temp = gradedStats * percent;
-        if(Math.floor(temp) + 0.50 < temp) {
-            temp = Math.floor(temp) + 1;
-        } else {
-            temp = Math.floor(temp);
-        }
+        var temp = Round(gradedStats * percent);
         
         var statsNeeded = 0;
         if(isBottomRange) {
             statsNeeded = baseRangeLimit - currentStatTotal;
             if(temp >= statsNeeded) {
-                elementErrorMsg.textContent = "You need to Base Up!";
+                elementErrorMsg.textContent[0] = "You need to Base Up!";
                 break;
             }
-        } else {            
-            statsNeeded = (baseArray[rangeLevel + 1].threshold) - (currentStatTotal);
-            
+        } else {
+            var tmp = Round((baseArray[rangeLevel + 1].threshold - 1) - (currentStatTotal));
+            statsNeeded = tmp;            
         }
         
         if (temp >= statsNeeded) {
-            gradedStats -= statsNeeded / percent;
+            gradedStats -= Round(statsNeeded / percent);
+            console.log(gradedStats);
             earnedStats += statsNeeded;
             rangeLevel++;
         } else {
@@ -722,17 +734,8 @@ elementCalculateButton.onclick = function() {
     
     var physSplit = earnedStats * 0.6, mentSplit = earnedStats * 0.4;
     
-    if(Math.floor(physSplit) + 0.50 < physSplit) {
-        physSplit = Math.floor(physSplit) + 1;
-    } else {
-        physSplit = Math.floor(physSplit);
-    }
-    
-    if(Math.floor(mentSplit) + 0.50 < mentSplit) {
-        mentSplit = Math.floor(mentSplit) + 1;
-    } else {
-        mentSplit = Math.floor(mentSplit);
-    }
+    physSplit = Round(physSplit);
+    mentSplit = Round(mentSplit);
     
     elementEarnedStats.textContent = earnedStats;
     elementSplit.textContent = "(" + physSplit + "/" + mentSplit + ")";
